@@ -10,6 +10,13 @@ std::string extractCommand(const std::string& message);
 std::vector<std::string> extractParams(const std::string& message);
 std::string extractTrailing(const std::string& message);
 
+
+struct ModeChange
+	{
+		bool        adding;     // true for +, false for -
+		char        mode;       // Mode character (i, t, k, o, l)
+		std::string param;      // Parameter if necessary (for k, o, l)
+	};
 }
 
 

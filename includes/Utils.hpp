@@ -50,4 +50,4 @@ namespace Utils
     std::string timestampToString(long timestamp);
 }
 
-#endif // UTILS_HPP
+#endif
