@@ -226,7 +226,7 @@ bool modeNeedsParam(char mode, bool adding)
 }
 
 /* ========================================================================== */
-/*                    PARSING DU PRÉFIXE                                      */
+/*                       PREFIXE PARSING                                      */
 /* ========================================================================== */
 
 // Extracts the nickname from a prefix.
