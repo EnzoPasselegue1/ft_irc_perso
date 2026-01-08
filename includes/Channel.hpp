@@ -11,7 +11,6 @@ private:
     /* ================================================================== */
 	/*                    ATTRIBUTS PRIVÉS                                */
 	/* ================================================================== */
-	
 	// Identification
 	std::string         _name;
 	
@@ -32,10 +31,10 @@ private:
 	
 	// Invitations
 	std::set<std::string> _invitedUsers;
+
 	/* ================================================================== */
 	/*                CONSTRUCTEURS INTERDITS                             */
 	/* ================================================================== */
-	
 	Channel();
 	Channel(const Channel& other);
 	Channel& operator=(const Channel& other);
