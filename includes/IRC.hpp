@@ -45,4 +45,23 @@
 // Signaux
 # include <signal.h>        // signal(), sigaction() pour gérer Ctrl+C, etc.
 
-#endif // IRC_HPP
+
+
+
+
+/* ========================================================================== */
+
+
+/* ========================================================================== */
+/*                        HEADERS OF PROJECT IRC                            */
+/* ========================================================================== */
+
+# include "Utils.hpp"
+# include "Parser.hpp"
+# include "Client.hpp"
+# include "Channel.hpp"
+# include "CommandHandler.hpp"
+# include "Server.hpp"
+
+
+#endif
