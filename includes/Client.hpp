@@ -69,6 +69,26 @@ public:
     void markForDisconnect();
     bool shouldDisconnect() const;
 
+    /* ========================================================================== */
+    /*                    GESTION DES CHANNELS                                    */
+    /* ========================================================================== */
+    void joinChannel(const std::string& channelName);
+    void leaveChannel(const std::string& channelName);
+    bool isInChannel(const std::string& channelName) const;
+    const std::set<std::string>& getChannels() const;
+
+    /* ========================================================================== */
+    /*                    GESTION DES BUFFERS                                     */
+    /* ========================================================================== */
+    void appendToInputBuffer(const std::string& data);
+    std::string& getInputBuffer();
+    void appendToOutputBuffer(const std::string& data);
+    std::string& getOutputBuffer();
+    void clearInputBuffer();
+    void trimOutputBuffer(size_t bytes);
+    bool hasDataToSend() const;
+
     
 
-}
+
+};
