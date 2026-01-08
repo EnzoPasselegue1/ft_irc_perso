@@ -63,11 +63,13 @@ public:
     /*                   ÉTAT D'AUTHENTIFICATION                                  */
     /* ========================================================================== */
     void setPasswordProvided(bool provided);
+    bool hasPasswordProvided() const;
     bool isPasswordProvided() const;
     void setRegistered(bool registered);
     bool isRegistered() const;
     void markForDisconnect();
     bool shouldDisconnect() const;
+
 
     /* ========================================================================== */
     /*                    GESTION DES CHANNELS                                    */
@@ -88,7 +90,12 @@ public:
     void trimOutputBuffer(size_t bytes);
     bool hasDataToSend() const;
 
-    
-
-
+    /* ========================================================================== */
+    /*                         ACCESSEURS                                         */
+    /* ========================================================================== */
+    int getFd() const;
+    void markForDisconnection();
+    bool shouldDisconnect() const;
 };
+
+#endif

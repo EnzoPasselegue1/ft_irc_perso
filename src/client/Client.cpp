@@ -157,3 +157,21 @@ bool Client::hasDataToSend() const
 	return !_outputBuffer.empty();
 }
 
+/* ========================================================================== */
+/*                         ACCESSEURS                                         */
+/* ========================================================================== */
+
+int Client::getFd() const
+{
+	return _fd;
+}
+
+void Client::markForDisconnection()
+{
+	_shouldDisconnect = true;
+}
+
+bool Client::shouldDisconnect() const
+{
+	return _shouldDisconnect;
+}
