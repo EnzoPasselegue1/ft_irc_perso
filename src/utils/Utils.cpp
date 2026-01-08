@@ -179,5 +179,4 @@ std::string timestampToString(long timestamp)
 	ss << timestamp;
 	return ss.str();
 }
-
 }
