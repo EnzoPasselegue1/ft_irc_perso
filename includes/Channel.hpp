@@ -66,6 +66,26 @@ public:
     bool isOperator(Client* client) const;
     bool isOperator(const std::string& nickname) const;
 
+    /* ========================================================================== */
+    /*                    GESTION DES MODES                                       */
+    /* ========================================================================== */
+    void setInviteOnly(bool enabled);
+    bool isInviteOnly() const;
+
+    void setTopicRestricted(bool enabled);
+    bool isTopicRestricted() const;
+
+    void setKey(const std::string& key);
+    const std::string& getKey() const;
+    bool hasKey() const;
+    bool checkKey(const std::string& key) const;
+
+    void setUserLimit(size_t limit);
+    size_t getUserLimit() const;
+    bool hasUserLimit() const;
+    bool isFull() const;
+    std::string getModeString() const;
+    std::string getModeStringWithParams() const;
 
 };
 

@@ -127,3 +127,111 @@ bool Channel::isOperator(const std::string& nickname) const
 	}
 	return false;
 }
+
+/* ========================================================================== */
+/*                    GESTION DES MODES                                       */
+/* ========================================================================== */
+
+/* --- Mode i : Invite-only --- */
+
+void Channel::setInviteOnly(bool enabled)
+{
+	_inviteOnly = enabled;
+}
+
+bool Channel::isInviteOnly() const
+{
+	return _inviteOnly;
+}
+
+/* --- Mode t : Topic protégé --- */
+
+void Channel::setTopicRestricted(bool enabled)
+{
+	_topicRestricted = enabled;
+}
+
+bool Channel::isTopicRestricted() const
+{
+	return _topicRestricted;
+}
+
+/* --- Mode k : Channel key (password) --- */
+
+void Channel::setKey(const std::string& key)
+{
+	_key = key;
+}
+
+const std::string& Channel::getKey() const
+{
+	return _key;
+}
+
+bool Channel::hasKey() const
+{
+	return !_key.empty();
+}
+
+bool Channel::checkKey(const std::string& key) const
+{
+	return _key == key;
+}
+
+/* --- Mode l : Limite d'utilisateurs --- */
+
+void Channel::setUserLimit(size_t limit)
+{
+	_userLimit = limit;
+}
+
+size_t Channel::getUserLimit() const
+{
+	return _userLimit;
+}
+
+bool Channel::hasUserLimit() const
+{
+	return _userLimit > 0;
+}
+
+bool Channel::isFull() const
+{
+	if (!hasUserLimit())
+	    return false;
+	return _members.size() >= _userLimit;
+}
+
+/* --- Génération de la chaîne de modes --- */
+
+std::string Channel::getModeString() const
+{
+	std::string modes = "+";
+
+	if (_inviteOnly)
+	    modes += "i";
+	if (_topicRestricted)
+	    modes += "t";
+	if (hasKey())
+	    modes += "k";
+	if (hasUserLimit())
+	    modes += "l";
+
+	if (modes == "+")
+	    return "";
+	return modes;
+}
+
+std::string Channel::getModeStringWithParams() const
+{
+	std::string modes = getModeString();
+	std::string params = "";
+
+	if (hasKey())
+	    params += " " + _key;
+	if (hasUserLimit())
+	    params += " " + Utils::intToString(_userLimit);
+
+	return modes + params;
+
+}
