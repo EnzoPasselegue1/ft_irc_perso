@@ -16,7 +16,6 @@ Channel::Channel(const std::string& name)
 	  _userLimit(0)
       {}
 
-// Destructor
 Channel::~Channel() {}
 
 /* ========================================================================== */
@@ -233,5 +232,90 @@ std::string Channel::getModeStringWithParams() const
 	    params += " " + Utils::intToString(_userLimit);
 
 	return modes + params;
+}
 
+/* ========================================================================== */
+/*                    GESTION DU TOPIC                                        */
+/* ========================================================================== */
+
+// Set the topic of the channel along with the setter's nickname and the current timestamp.
+void Channel::setTopic(const std::string& topic, const std::string& setterNick)
+{
+
+	_topic = topic;
+	_topicSetter = setterNick;
+	_topicTime = std::time(NULL);  // Timestamp actuel
+
+}
+
+// Get the current topic of the channel.
+const std::string& Channel::getTopic() const
+{
+	return _topic;
+}
+
+// Check if the channel has a topic set.
+bool Channel::hasTopic() const
+{
+	return !_topic.empty();
+}
+
+// Get the nickname of the user who set the topic.
+const std::string& Channel::getTopicSetter() const
+{
+	return _topicSetter;
+}
+
+// Get the timestamp of when the topic was set.
+time_t Channel::getTopicTime() const
+{
+	return _topicTime;
+}
+
+/* ========================================================================== */
+/*                    GESTION DES INVITATIONS                                 */
+/* ========================================================================== */
+
+void Channel::addInvite(const std::string& nickname)
+{
+	_invitedUsers.insert(Utils::toLower(nickname));
+}
+
+void Channel::removeInvite(const std::string& nickname)
+{
+	_invitedUsers.erase(Utils::toLower(nickname));
+}
+
+bool Channel::isInvited(const std::string& nickname) const
+{
+	return _invitedUsers.find(Utils::toLower(nickname)) != _invitedUsers.end();
+}
+
+/* ========================================================================== */
+/*                         ACCESSEURS                                         */
+/* ========================================================================== */
+
+const std::string& Channel::getName() const
+{
+	return _name;
+}
+
+//Format : "@op1 user1 @op2 user2"
+std::string Channel::getNamesList() const
+{
+	std::string list;
+
+	for (std::set<Client*>::const_iterator it = _members.begin();
+	     it != _members.end(); ++it)
+	{
+	    if (!list.empty())
+	        list += " ";
+
+	    if (isOperator(*it))
+	        list += "@";
+
+	    list += (*it)->getNickname();
+	}
+
+	return list;
 }
