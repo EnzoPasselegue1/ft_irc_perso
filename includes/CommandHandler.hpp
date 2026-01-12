@@ -36,6 +36,7 @@ class CommandHandler
         void handleQuit(Client* client, const ParsedCommand& cmd);
         void handleJoin(Client* client, const ParsedCommand& cmd);
         void joinSingleChannel(Client* client, const std::string& channelName, const std::string& key);
+        void handlePart(Client* client, const ParsedCommand& cmd);
 
         ParsedCommand parseCommand(const std::string& rawCommand);
         void sendError(Client* client, const std::string& errorCode, const std::string& target, const std::string& message);
