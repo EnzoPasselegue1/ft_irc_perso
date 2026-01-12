@@ -292,7 +292,7 @@ bool Channel::isInvited(const std::string& nickname) const
 }
 
 /* ========================================================================== */
-/*                         ACCESSEURS                                         */
+/*                         GETTERS                                         */
 /* ========================================================================== */
 
 const std::string& Channel::getName() const

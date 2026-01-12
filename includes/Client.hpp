@@ -87,7 +87,7 @@ public:
     bool hasDataToSend() const;
 
     /* ========================================================================== */
-    /*                         ACCESSEURS                                         */
+    /*                         GETTERS                                         */
     /* ========================================================================== */
     int getFd() const;
     void markForDisconnection();

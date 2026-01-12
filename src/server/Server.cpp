@@ -305,3 +305,32 @@ void Server::broadcastToChannel(const std::string& channelName, const std::strin
 	}
 }
 
+/* ========================================================================== */
+/*                       GETTEURS                                             */
+/* ========================================================================== */
+
+const std::string& Server::getPassword() const
+{
+    return _password;
+}
+
+const std::string& Server::getServerName() const
+{
+    return _serverName;
+}
+
+std::map<int, Client*>& Server::getClients()
+{
+    return _clients;
+}
+
+std::map<std::string, Channel*>& Server::getChannels()
+{
+    return _channels;
+}
+
+/* ========================================================================== */
+/*                       PRIVATE METHODE                                      */
+/* ========================================================================== */
+
+

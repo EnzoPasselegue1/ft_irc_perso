@@ -346,7 +346,7 @@ void testInvitations()
 
 void testAccessors()
 {
-    printSeparator("ACCESSEURS");
+    printSeparator("GETTERS");
     
     Channel channel("#test");
     

@@ -53,5 +53,8 @@ class Server
         Channel* Server::RemoveChannel(const std::string& name);
         void Server::sendToClient(int fd, const std::string& message);
         void Server::broadcastToChannel(const std::string& channelName, const std::string& message, int excludeFd);
-        
+        const std::string& Server::getPassword() const;
+        const std::string& Server::getServerName() const;
+        std::map<int, Client*>& Server::getClients();
+        std::map<std::string, Channel*>& Server::getChannels();
 };

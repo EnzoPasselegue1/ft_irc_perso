@@ -203,7 +203,7 @@ void testBufferManagement()
 
 void testAccessors()
 {
-    printSeparator("ACCESSEURS ET DÉCONNEXION");
+    printSeparator("GETTERS ET DÉCONNEXION");
     
     Client client(30, "test.server.com");
     

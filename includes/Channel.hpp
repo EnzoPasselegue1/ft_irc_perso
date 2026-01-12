@@ -101,7 +101,7 @@ public:
     bool isInvited(const std::string& nickname) const;
 
     /* ========================================================================== */
-    /*                         ACCESSEURS                                         */
+    /*                         GETTERS                                         */
     /* ========================================================================== */
     const std::string& getName() const;
     std::string getNamesList() const;
