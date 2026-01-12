@@ -50,11 +50,19 @@ class Server
         bool Server::isNicknameInUse(const std::string& nickname);
         Channel* Server::getOrCreatChannel(const std::string& name);
         Channel* Server::getChannel(const std::string& name);
-        Channel* Server::RemoveChannel(const std::string& name);
+        Channel* Server::removeChannel(const std::string& name);
         void Server::sendToClient(int fd, const std::string& message);
         void Server::broadcastToChannel(const std::string& channelName, const std::string& message, int excludeFd);
         const std::string& Server::getPassword() const;
         const std::string& Server::getServerName() const;
         std::map<int, Client*>& Server::getClients();
         std::map<std::string, Channel*>& Server::getChannels();
+
+
+
+        void Server::addToPoll(int fd);
+        void Server::removeFromPoll(int fd);
+
 };
+
+#endif

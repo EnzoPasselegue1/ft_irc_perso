@@ -254,7 +254,7 @@ Channel* Server::getChannel(const std::string& name)
     return NULL;
 }
 
-Channel* Server::RemoveChannel(const std::string& name)
+Channel* Server::removeChannel(const std::string& name)
 {
     std::string lowerName = Utils::toLower(name);
     std::map<std::string, Channel*>::iterator it = _channels.find(lowerName);
@@ -333,4 +333,32 @@ std::map<std::string, Channel*>& Server::getChannels()
 /*                       PRIVATE METHODE                                      */
 /* ========================================================================== */
 
+
+
+
+
+
+//Add a fd in poll
+void Server::addToPoll(int fd)
+{
+	struct pollfd pfd;
+	pfd.fd = fd;
+	pfd.events = POLLIN;  // check data entrance
+	pfd.revents = 0;
+	_pollFds.push_back(pfd);
+}
+
+//Remove fd from poll
+void Server::removeFromPoll(int fd)
+{
+	for (std::vector<pollfd>::iterator it = _pollFds.begin();
+	     it != _pollFds.end(); ++it)
+	{
+	    if (it->fd == fd)
+	    {
+	        _pollFds.erase(it);
+	        break;
+	    }
+	}
+}
 
