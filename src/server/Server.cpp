@@ -272,3 +272,36 @@ Channel* Server::RemoveChannel(const std::string& name)
 /*                       COIMMUNICATION                                       */
 /* ========================================================================== */
 
+void Server::sendToClient(int fd, const std::string& message)
+{
+    	std::map<int, Client*>::iterator it = _clients.find(fd);
+        if (it != _clients.end())
+        {
+	    it->second->appendToOutputBuffer(message + CRLF);
+
+	    for (size_t i = 0; i < _pollFds.size(); ++i)
+	    {
+	        if (_pollFds[i].fd == fd)
+	        {
+	            _pollFds[i].events |= POLLOUT;
+	            break;
+	        }
+	    }
+	}
+}
+
+void Server::broadcastToChannel(const std::string& channelName, const std::string& message, int excludeFd)
+{
+	Channel* channel = getChannel(channelName);
+	if (!channel)
+	    return;
+
+	const std::set<Client*>& members = channel->getMembers();
+	for (std::set<Client*>::const_iterator it = members.begin();
+	     it != members.end(); ++it)
+	{
+	    if ((*it)->getFd() != excludeFd)
+	        sendToClient((*it)->getFd(), message);
+	}
+}
+
