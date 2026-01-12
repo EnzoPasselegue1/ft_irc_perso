@@ -26,12 +26,12 @@ void CommandHandler::handleCommand(Client* client, const std::string& rawCommand
 	    return;
 	}
 
-	//if (upperCmd == "PASS")
-	//    handlePass(client, cmd);
-	//else if (upperCmd == "NICK")
-	//    handleNick(client, cmd);
-	//else if (upperCmd == "USER")
-	//    handleUser(client, cmd);
+	if (upperCmd == "PASS")
+	    handlePass(client, cmd);
+	else if (upperCmd == "NICK")
+	    handleNick(client, cmd);
+	else if (upperCmd == "USER")
+	    handleUser(client, cmd);
 	//else if (upperCmd == "JOIN")
 	//    handleJoin(client, cmd);
 	//else if (upperCmd == "PART")
@@ -54,8 +54,8 @@ void CommandHandler::handleCommand(Client* client, const std::string& rawCommand
 	//    ; // Ignorer CAP (utilisé par certains clients modernes)
 	//else if (upperCmd == "WHO" || upperCmd == "WHOIS")
 	//    ; // Optionnel : implémenter WHO/WHOIS
-	//else
-	//    sendError(client, ERR_UNKNOWNCOMMAND, upperCmd, "Unknown command");
+	else
+	    sendError(client, ERR_UNKNOWNCOMMAND, upperCmd, "Unknown command");
 }
 
 ParsedCommand CommandHandler::parseCommand(const std::string& rawCommand)
@@ -125,3 +125,45 @@ void CommandHandler::sendError(Client* client, const std::string& errorCode,
 	_server.sendToClient(client->getFd(), reply);
 }
 
+void CommandHandler::sendReply(Client* client, const std::string& replyCode,
+							   const std::string& params, const std::string& message)
+{
+	std::string nick = client->getNickname();
+	if (nick.empty())
+	    nick = "*";
+
+	std::string reply = ":" + _server.getServerName() + " " + replyCode + " " + nick;
+
+	if (!params.empty())
+	    reply += " " + params;
+
+	if (!message.empty())
+	    reply += " :" + message;
+
+	_server.sendToClient(client->getFd(), reply);
+}
+
+
+void CommandHandler::sendWelcome(Client* client)
+{
+	std::string nick = client->getNickname();
+	std::string prefix = client->getPrefix();
+
+	// 001 RPL_WELCOME
+	sendReply(client, RPL_WELCOME, "",
+	          "Welcome to the Internet Relay Network " + prefix);
+
+	// 002 RPL_YOURHOST
+	sendReply(client, RPL_YOURHOST, "",
+	          "Your host is " + _server.getServerName() +
+	          ", running version " + SERVER_VERSION);
+
+	// 003 RPL_CREATED
+	sendReply(client, RPL_CREATED, "",
+	          "This server was created ");
+
+	// 004 RPL_MYINFO
+	sendReply(client, RPL_MYINFO,
+	          _server.getServerName() + " " + SERVER_VERSION + " o itkol",
+	          "");
+}

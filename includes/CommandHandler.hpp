@@ -28,8 +28,15 @@ class CommandHandler
         ~CommandHandler();
 
         void handleCommand(Client* client, const std::string& rawCommand);
+        void handleNick(Client* client, const ParsedCommand& cmd);
+        void checkRegistration(Client* client);
+        void handleUser(Client* client, const ParsedCommand& cmd);
+
         ParsedCommand parseCommand(const std::string& rawCommand);
         void sendError(Client* client, const std::string& errorCode, const std::string& target, const std::string& message);
+        void sendReply(Client* client, const std::string& replyCode, const std::string& params, const std::string& message);
+        void sendWelcome(Client* client);
+
 };
 
 #endif
