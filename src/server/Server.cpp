@@ -163,13 +163,47 @@ void Server::run()
 	                flushClientBuffer(clientFd);
 	        }
 	    }
-	    cleanupDisconnectedClients();
+	    //cleanupDisconnectedClients();
 	}
 }
 
 void Server::stop()
 {
     _running = false;
+}
+
+/* ========================================================================== */
+/*                       GESTION  CONNEXIONS                                  */
+/* ========================================================================== */
+
+//accept new client if it's possble
+void Server::acceptNewClient()
+{
+	struct sockaddr_in clientAddr;
+	socklen_t addrLen = sizeof(clientAddr);
+	int clientFd = accept(_serverSocket, (struct sockaddr*)&clientAddr, &addrLen);
+
+	if (clientFd == -1)
+	{
+	    std::cerr << "Error: accept() failed" << std::endl;
+	    return;
+	}
+
+	if (fcntl(clientFd, F_SETFL, O_NONBLOCK) == -1)
+	{
+	    std::cerr << "Error: fcntl() failed for new client" << std::endl;
+	    close(clientFd);
+	    return;
+	}
+
+	std::string hostname = inet_ntoa(clientAddr.sin_addr);
+
+	Client* client = new Client(clientFd, hostname);
+	_clients[clientFd] = client;
+
+	addToPoll(clientFd);
+
+	std::cout << "New client connected: " << hostname << " (fd: " << clientFd << ")" << std::endl;
 }
 
 // DisconnectClient
@@ -208,7 +242,6 @@ void Server::disconnectClient(int fd)
 
 Client* Server::getClientByNickname(const std::string& nickname)
 {
-
 	std::string lowerNick = Utils::toLower(nickname);
 	for (std::map<int, Client*>::iterator it = _clients.begin();
 	     it != _clients.end(); ++it)
@@ -333,10 +366,76 @@ std::map<std::string, Channel*>& Server::getChannels()
 /*                       PRIVATE METHODE                                      */
 /* ========================================================================== */
 
+void Server::handleClientData(int fd)
+{
+	std::map<int, Client*>::iterator it = _clients.find(fd);
+	if (it == _clients.end())
+	    return;
+	Client* client = it->second;
 
+    char buffer[BUFFER_SIZE];
+	std::memset(buffer, 0, BUFFER_SIZE);
+	ssize_t bytesRead = recv(fd, buffer, BUFFER_SIZE - 1, 0);
 
+	if (bytesRead <= 0) // 0 = deconnexion , -1 = error
+	{
+	    client->markForDisconnection();
+	    return;
+	}
 
+    client->appendToInputBuffer(std::string(buffer, bytesRead));
 
+    std::string& inputBuffer = client->getInputBuffer();
+	size_t pos;
+	while ((pos = inputBuffer.find(CRLF)) != std::string::npos)
+	{
+	    // Extract command
+	    std::string command = inputBuffer.substr(0, pos);
+	    inputBuffer.erase(0, pos + 2);  // +2 for \r\n
+
+	    // Ignore empty lines 
+	    if (!command.empty())
+	        processCommand(client, command);
+	}
+}
+
+void Server::processCommand(Client* client, const std::string& command)
+{
+    if (_cmdHandler)
+        _cmdHandler->handleCommand(client, command);
+}
+
+void Server::flushClientBuffer(int fd)
+{
+        std::map<int, Client*>::iterator it = _clients.find(fd);
+    if (it == _clients.end())
+        return ;
+    Client* client = it->second;
+    std::string& outputBuffer = client->getOutputBuffer();
+    if (outputBuffer.empty())
+    {
+        for (size_t i = 0; i < _pollFds.size(); ++i)
+        {
+            if (_pollFds[i].fd == fd)
+            {
+                _pollFds[i].events &= ~POLLOUT;
+                break;
+            }
+        }
+        return ;
+    }
+
+	ssize_t bytesSent = send(fd, outputBuffer.c_str(), outputBuffer.size(), 0);
+
+    if (bytesSent == -1)
+	{
+	    if (errno != EAGAIN && errno != EWOULDBLOCK)
+	        client->markForDisconnection();
+	    return;
+	}
+
+	client->trimOutputBuffer(bytesSent);
+}
 
 //Add a fd in poll
 void Server::addToPoll(int fd)

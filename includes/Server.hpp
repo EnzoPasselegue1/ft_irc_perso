@@ -42,26 +42,29 @@ class Server
         Server(int port, const std::string& password);
         ~Server();
 
-        bool Server::init();
-        void Server::run();
-        void Server::stop();
-        void Server::disconnectClient(int fd);
-        Client* Server::getClientByNickname(const std::string& nickname);
-        bool Server::isNicknameInUse(const std::string& nickname);
-        Channel* Server::getOrCreatChannel(const std::string& name);
-        Channel* Server::getChannel(const std::string& name);
-        Channel* Server::removeChannel(const std::string& name);
-        void Server::sendToClient(int fd, const std::string& message);
-        void Server::broadcastToChannel(const std::string& channelName, const std::string& message, int excludeFd);
-        const std::string& Server::getPassword() const;
-        const std::string& Server::getServerName() const;
-        std::map<int, Client*>& Server::getClients();
-        std::map<std::string, Channel*>& Server::getChannels();
+        bool init();
+        void run();
+        void stop();
+        void acceptNewClient();
+        void disconnectClient(int fd);
+        Client* getClientByNickname(const std::string& nickname);
+        bool isNicknameInUse(const std::string& nickname);
+        Channel* getOrCreatChannel(const std::string& name);
+        Channel* getChannel(const std::string& name);
+        Channel* removeChannel(const std::string& name);
+        void sendToClient(int fd, const std::string& message);
+        void broadcastToChannel(const std::string& channelName, const std::string& message, int excludeFd);
+        const std::string& getPassword() const;
+        const std::string& getServerName() const;
+        std::map<int, Client*>& getClients();
+        std::map<std::string, Channel*>& getChannels();
 
 
-
-        void Server::addToPoll(int fd);
-        void Server::removeFromPoll(int fd);
+        void handleClientData(int fd);
+        void processCommand(Client* client, const std::string& command);
+        void flushClientBuffer(int fd);
+        void addToPoll(int fd);
+        void removeFromPoll(int fd);
 
 };
 
