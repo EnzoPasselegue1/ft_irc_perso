@@ -42,8 +42,8 @@ void CommandHandler::handleCommand(Client* client, const std::string& rawCommand
 	//    handleKick(client, cmd);
 	//else if (upperCmd == "INVITE")
 	//    handleInvite(client, cmd);
-	//else if (upperCmd == "TOPIC")
-	//    handleTopic(client, cmd);
+	else if (upperCmd == "TOPIC")
+	    handleTopic(client, cmd);
 	//else if (upperCmd == "MODE")
 	//    handleMode(client, cmd);
 	else if (upperCmd == "QUIT")
