@@ -178,8 +178,3 @@ Configurer le serveur avec :
 - **Buffers** : Gérer les commandes fragmentées (partial data)
 - **CRLF** : Les messages IRC se terminent par `\r\n`
 - **Majuscules** : Les commandes sont insensibles à la casse
-
-## Bonus (après mandatory parfait)
-
-- **File transfer** : Implémentation de DCC
-- **Bot** : Un bot simple avec des commandes
