@@ -74,15 +74,15 @@ void::CommandHandler::applyModeChanges(Client* client, Channel* channel,
         
         switch (modeChar)
         {
-            case 'i': // Invite-only mode
+            case 'i':
                 channel->setInviteOnly(adding);
                 appliedModes += "i";
                 break;
-            case 't': // Topic-restricted mode
+            case 't':
                 channel->setTopicRestricted(adding);
                 appliedModes += "t";
                 break;
-            case 'k': // Key mode
+            case 'k':
                 if (adding)
                 {
                     if (paramIndex >= modeParams.size())
@@ -90,9 +90,8 @@ void::CommandHandler::applyModeChanges(Client* client, Channel* channel,
                         sendError(client, ERR_NEEDMOREPARAMS, "MODE", "Not enough parameters for +k");
                         return;
                     }
-                    // Use the parameter for the key mode
                     channel->setKey(modeParams[paramIndex]);
-                    modeParamsStr += modeParams[paramIndex];
+                    modeParamsStr += " " + modeParams[paramIndex];
                     paramIndex++;
                 }
                 else
@@ -101,7 +100,7 @@ void::CommandHandler::applyModeChanges(Client* client, Channel* channel,
                 }
                 appliedModes += "k";
                 break;
-            case 'o': // Operator mode
+            case 'o':
                 if (paramIndex >= modeParams.size())
                 {
                     sendError(client, ERR_NEEDMOREPARAMS, "MODE", "Not enough parameters for o");
@@ -118,12 +117,12 @@ void::CommandHandler::applyModeChanges(Client* client, Channel* channel,
                         channel->addOperator(targetClient);
                     else
                         channel->removeOperator(targetClient);
-                    modeParamsStr += modeParams[paramIndex];
+                    modeParamsStr += " " + modeParams[paramIndex];
                     paramIndex++;
                 }
                 appliedModes += "o";
                 break;
-            case 'l': // User limit mode
+            case 'l':
                 if (adding)
                 {
                     if (paramIndex >= modeParams.size())
