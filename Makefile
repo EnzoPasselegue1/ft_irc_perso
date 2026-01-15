@@ -8,8 +8,7 @@ INC_DIR = includes
 OBJ_DIR = obj
 
 
-SRC_SERVER =	$(SRC_DIR)/server/Server.cpp \
-				$(SRC_DIR)/server/Socket.cpp
+SRC_SERVER =	$(SRC_DIR)/server/Server.cpp
 
 SRC_CLIENT =	$(SRC_DIR)/client/Client.cpp
 
