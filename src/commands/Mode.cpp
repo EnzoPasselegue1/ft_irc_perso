@@ -10,7 +10,7 @@ void CommandHandler::handleMode(Client* client, const ParsedCommand& cmd)
     
     std::string target = cmd.params[0];
 
-    if (target[0] != '#' && target[0] != '&')
+    if (target[0] != '#' && target[0] != '&' && target[0] != '+' && target[0] != '!')
     { 
         sendError(client, ERR_UMODEUNKNOWNFLAG, target, "Unknown user mode flag");
         return;

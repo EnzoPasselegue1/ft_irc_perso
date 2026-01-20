@@ -162,7 +162,7 @@ bool isValidChannelName(const std::string& name)
 	if (name.empty() || name.length() > MAX_CHANNEL_LENGTH)
 	    return false;
 
-	if (name[0] != '#' && name[0] != '&')
+	if (name[0] != '#' && name[0] != '&' && name[0] != '+' && name[0] != '!')
 	    return false;
 
 	for (size_t i = 1; i < name.length(); ++i)
