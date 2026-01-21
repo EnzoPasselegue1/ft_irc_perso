@@ -9,7 +9,7 @@ void CommandHandler::handleWho(Client* client, const ParsedCommand& cmd)
     }
 
     std::string target = cmd.params[0];
-    bool isChannel = (target[0] == '#' || target[0] == '&' || target[0] != '+' || target[0] != '!');
+    bool isChannel = (target[0] == '#' || target[0] == '&' || target[0] == '+' || target[0] == '!');
 
     if (isChannel)
     {
