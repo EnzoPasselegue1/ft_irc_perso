@@ -49,7 +49,7 @@ void CommandHandler::handleBot(Client* client, const ParsedCommand& cmd)
 
     std::string verdict = (score % 2) ? "c'est de droite." : "c'est de gauche.";
 
-    if (!target.empty())
+    if (target.empty())
     {
         std::string reply = ":" + _server.getServerName() + " NOTICE "
                           + client->getNickname() + " :" + verdict;
