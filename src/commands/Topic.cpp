@@ -50,9 +50,9 @@ void CommandHandler::handleTopic(Client* client, const ParsedCommand& cmd)
         // Notify all members about the topic change
 	    std::string topicMsg = ":" + client->getPrefix() + " TOPIC " + channelName;
 	    if (!newTopic.empty())
-	        topicMsg += " :" + newTopic;
+	        topicMsg += " " + newTopic;
 	    else
-	        topicMsg += " :";  // Topic effacé
+	        topicMsg += "";  // Topic effacé
         
 	    _server.broadcastToChannel(channelName, topicMsg, -1);
     }

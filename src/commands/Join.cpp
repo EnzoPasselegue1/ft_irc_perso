@@ -8,6 +8,21 @@ void CommandHandler::handleJoin(Client* client, const ParsedCommand& cmd)
 	    return;
 	}
 
+    if (cmd.params[0] == "0")
+    {
+        // Leave all channels
+        // copy channels to avoid iterator invalidation if handlePart modifies client's channel set
+        std::vector<std::string> channels(client->getChannels().begin(), client->getChannels().end());
+        for (std::vector<std::string>::const_iterator it = channels.begin(); it != channels.end(); ++it)
+        {
+            ParsedCommand partCmd;
+            partCmd.command = "PART";
+            partCmd.params = std::vector<std::string>(1, *it);
+            handlePart(client, partCmd);
+        }
+        return;
+    }
+
 	std::vector<std::string> channels = parser::parseChannelList(cmd.params[0]);
 	std::vector<std::string> keys;
 	if (cmd.params.size() > 1)
