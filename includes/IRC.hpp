@@ -87,6 +87,9 @@
 # define RPL_NAMREPLY       "353"   // List of users in a channel
 # define RPL_ENDOFNAMES     "366"   // End of user list
 # define RPL_ENDOF
+# define RPL_LISTSTART      "321"   // Start of channel list
+# define RPL_LIST           "322"   // Channel list entry
+# define RPL_LISTEND        "323"   // End of channel list
 
 // Command errors
 # define ERR_NOSUCHNICK     "401"   // Nickname does not exist

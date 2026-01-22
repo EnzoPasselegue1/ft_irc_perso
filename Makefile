@@ -29,7 +29,8 @@ SRC_COMMANDS =	$(SRC_DIR)/commands/CommandHandler.cpp \
 				$(SRC_DIR)/commands/Ping.cpp \
 				$(SRC_DIR)/commands/Who.cpp	\
 				$(SRC_DIR)/commands/Notice.cpp	\
-				$(SRC_DIR)/commands/Names.cpp
+				$(SRC_DIR)/commands/Names.cpp	\
+				$(SRC_DIR)/commands/List.cpp	\
 
 SRC_UTILS =		$(SRC_DIR)/utils/Utils.cpp \
 				$(SRC_DIR)/utils/Parser.cpp

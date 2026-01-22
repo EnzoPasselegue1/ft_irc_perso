@@ -62,6 +62,7 @@ class CommandHandler
                               const std::vector<std::string>& modeParams);
         void handleWho(Client* client, const ParsedCommand& cmd);
         void handleNames(Client* client, const ParsedCommand& cmd);
+        void handleList(Client* client, const ParsedCommand& cmd);
         void handleBot(Client* client, const ParsedCommand& cmd);
 
 /* ========================================================================== */

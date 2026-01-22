@@ -63,6 +63,8 @@ void CommandHandler::handleCommand(Client* client, const std::string& rawCommand
 		handleBot(client, cmd);
 	else if (upperCmd == "NAMES")
 	    handleNames(client, cmd);
+	else if (upperCmd == "LIST")
+		handleList(client, cmd);
 	else
 	    sendError(client, ERR_UNKNOWNCOMMAND, upperCmd, "Unknown command");
 }
