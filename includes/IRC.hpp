@@ -77,7 +77,7 @@
 # define RPL_MYINFO         "004"   // Server technical information
 
 // Return codes for commands
-#define RPL_ENDOFWHO        "315"   // End of WHO response
+# define RPL_ENDOFWHO        "315"   // End of WHO response
 # define RPL_CHANNELMODEIS  "324"   // Current mode of a channel
 # define RPL_NOTOPIC        "331"   // No topic set
 # define RPL_TOPIC          "332"   // Channel topic
@@ -86,6 +86,7 @@
 # define RPL_WHOREPLY       "352"   // WHO command response
 # define RPL_NAMREPLY       "353"   // List of users in a channel
 # define RPL_ENDOFNAMES     "366"   // End of user list
+# define RPL_ENDOF
 
 // Command errors
 # define ERR_NOSUCHNICK     "401"   // Nickname does not exist

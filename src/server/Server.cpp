@@ -310,9 +310,9 @@ Channel* Server::removeChannel(const std::string& name)
 
 void Server::sendToClient(int fd, const std::string& message)
 {
-    	std::map<int, Client*>::iterator it = _clients.find(fd);
-        if (it != _clients.end())
-        {
+	std::map<int, Client*>::iterator it = _clients.find(fd);
+	if (it != _clients.end())
+    {
 	    it->second->appendToOutputBuffer(message + CRLF);
 
 	    for (size_t i = 0; i < _pollFds.size(); ++i)

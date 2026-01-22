@@ -61,6 +61,8 @@ void CommandHandler::handleCommand(Client* client, const std::string& rawCommand
         handleWho(client, cmd);
 	else if (upperCmd == "BOT")
 		handleBot(client, cmd);
+	else if (upperCmd == "NAMES")
+	    handleNames(client, cmd);
 	else
 	    sendError(client, ERR_UNKNOWNCOMMAND, upperCmd, "Unknown command");
 }
